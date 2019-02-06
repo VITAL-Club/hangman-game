@@ -1,9 +1,12 @@
 # hangman-game
 This is a hangman game coded in C
+                                              
                                               FLOW CHART
+                                              
+                                              
    _______________             __________________________            ____________________________        
-  | Program start | --------> | Pick a word using random | -------> | Display # of char with "_"|
-  ----------------             --------------------------            ----------------------------
+  | Program start | --------> | Pick a word using random | -------> | Display # of char with "_"  
+   ----------------             --------------------------            ---------------------------
                                                                           /
                                                                         /
                                                                       /
