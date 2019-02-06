@@ -30,7 +30,8 @@ This is a hangman game coded in C
      | Display  |  <------------------- | Check if word is done |                          | If lives > 0 |       | If no lives left | 
      |win screen|                        -----------------------                           | -1 from lives|       | show "game over" |
       ----------                                                                            --------------          -----------------    
-      Functions needed:
+     
+   - Function needed:
       - Display menu (Quynh)*
       - Draw hangman
       -> Input: the number of guesses left(int)
@@ -40,7 +41,6 @@ This is a hangman game coded in C
       -> Input: the current word(char *) & the incorrect guess( char*)
          Process: 
          Output: Display the word and incorrect guess
-      - Display "Game over" screen( void)
       - Choose a random word to be in the game(char[]) (Frank)*
       -> Input: Import word bank
          Process: randomize to select a word
