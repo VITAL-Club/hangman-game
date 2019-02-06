@@ -55,10 +55,10 @@ This is a hangman game coded in C
   
   bool checkChar( const char* answer, char* current, char guess)
   {
+  
     bool found = false;
     for(int it =0; i < strlen(answer); i++)
     {
-    
      if(answer[i] == guess){
       found= true;
       current[i] = guess;
