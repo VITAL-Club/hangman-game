@@ -33,19 +33,19 @@ This is a hangman game coded in C
      
    - Function needed:
       - Display menu (Quynh)*
-      - Draw hangman
-      -> Input: the number of guesses left(int)
-         Process: print man
-         Output: dawing
-      - Display the word(void):
-      -> Input: the current word(char *) & the incorrect guess( char*)
-         Process: 
-         Output: Display the word and incorrect guess
-      - Choose a random word to be in the game(char[]) (Frank)*
-      -> Input: Import word bank
-         Process: randomize to select a word
-         Output: Return the selected word
-    *: call dibs
+      - Draw hangman<br/>
+      -> Input: the number of guesses left(int)<br/>
+         Process: print man<br/>
+         Output: drawing
+      - Display the word(void):<br/>
+      -> Input: the current word(char *) & the incorrect guess( char*)<br/>
+         Process: <br/>
+         Output: Display the word and incorrect guess<br/>
+      - Choose a random word to be in the game(char[]) (Frank)* <br/>
+      -> Input: Import word bank<br/>
+         Process: randomize to select a word<br/>
+         Output: Return the selected word<br/>
+     *: call dibs
     
   - Function to check if the letter is in the word
   
