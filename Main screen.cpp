@@ -5,6 +5,7 @@ void displayMenu(){
 	printf("\t\t\t **WELCOME TO HANGMAN**\n");
 	printf("\t\t\t **********************\n");
 	printf("\t\t\t --------    \t\t Do not get TOO hung up :)\n");
+	//This will align when run
     printf(" Du du DU du du Du\t |      |\n");
     printf("       Du du Du du du... |     (@)\n");
     printf("\t HANGman!!!!     |     /|\\     \t\t\t HANG in there!\n ");
@@ -25,7 +26,6 @@ void displayMenu(){
 	printf("- The numbers of remaining misses that you have left will be displayed on the screen, so no need to keep count.\n");
 	printf(" Good luck!\n");
 	//Frezze the screen so people could read and play
-	printf("Press any key to continue: \n");
 	system("pause");
 	return;
 }
