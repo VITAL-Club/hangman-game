@@ -6,7 +6,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#define HANGED 7
 
 void displayString(char* current, int stringLength)
 {
@@ -35,13 +34,43 @@ void displayString(char* current, int stringLength)
 // Displaying the hanging body
 void displayBody(int correctLetters)
 {
-
+  switch(correctLetters)
+  {
+    case 1:
+      printf("  O\n");
+      break;
+    case 2:
+      printf("  O\n");
+      printf("  |\n");
+      break;
+    case 3:
+      printf("  O\n");
+      printf(" /|\n");
+      break;
+    case 4:
+      printf("  O\n");
+      printf(" /|\\\n");
+      break;
+    case 5:
+      printf("  O\n");
+      printf(" /|\\\n");
+      printf(" /\n");
+      break;
+    case 6:
+      printf("  o\n");
+      printf(" /|\\\n");
+      printf(" /\\\n");
+      break;
+    default:
+      return;
+  }
 }
 
-// The searching prototype that Frank made
-bool checkChar(const char* answer, char* current, char guess)
+// The searching prototype that Frank made. I made it into an int
+// function to count the variable incase it was found once.
+int checkChar(const char* answer, char* current, char guess)
 {
-  bool found = false;
+  int found = 0;
   int i;
   int length = strlen(answer);
 
@@ -49,9 +78,8 @@ bool checkChar(const char* answer, char* current, char guess)
   {
     if (answer[i] == guess)
     {
-      found = true;
+      found++;
       current[i] = guess;
-
     }
   }
 
@@ -71,7 +99,8 @@ int main(void)
   // correctLetters is the amount of times a correct letter is found,
   // which will be added to correctGuess after going through the word.
   int i, guessLen, alphabetLetters = 0, correctGuess = 0, correctLetters = 0;
-  printf("Welcome to hangman\n");
+  int wrongGuess = 0, lives = 6;
+  printf("Welcome to Hangman\n");
 
   guessLen = strlen(stringGuess);
   // Dynamically Allocate the word to fit the thing itself.
@@ -85,19 +114,34 @@ int main(void)
     scanf("%c", &input);
     // This is to remove the extra newline from scanf
     getchar();
-    printf("Guess: %c\n", input);
 
-    if (checkChar(stringGuess, stringRight, input));
+    // Increment letter if it a letter is found;
+    alphabetLetters = checkChar(stringGuess, stringRight, input);
+
+    // If there are no letters found from the guessed character,
+    // we increment the wrongGuess variable.
+    if (alphabetLetters != 0)
     {
-      printf("Correct\n");
-      correctLetters++;
+      correctLetters += alphabetLetters;
     }
+    else
+    {
+      printf("Wrong Letter\n");
+      wrongGuess++;
+      displayBody(wrongGuess);
 
+      // If the amount of lives and the amount of wrong guesses equal
+      // zero, we end the loop and immediately give the GAME OVER screen
+      if (lives - wrongGuess != 0)
+        printf("Lives left: %d\n", lives - wrongGuess);
+      else
+        break;
+    }
   }
 
   // Free memory from the guessed string
+  printf("GAME OVER\n");
   free(stringRight);
-  printf("End of program");
 
   return 0;
 }
