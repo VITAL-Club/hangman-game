@@ -6,6 +6,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#define HANGED 6
+
+#ifdef WIN32
+  #define CLS system("cls")
+#else
+  #define CLS system("clear")
+#endif
 
 void displayString(char* current, int stringLength)
 {
@@ -34,32 +41,33 @@ void displayString(char* current, int stringLength)
 // Displaying the hanging body
 void displayBody(int correctLetters)
 {
+  printf("\t\t\t\t\t\tBody: ");
   switch(correctLetters)
   {
     case 1:
-      printf("  O\n");
+      printf("\t\t  O\n");
       break;
     case 2:
-      printf("  O\n");
-      printf("  |\n");
+      printf("\t\t  O\n");
+      printf("\t\t\t\t\t\t\t\t  |\n");
       break;
     case 3:
-      printf("  O\n");
-      printf(" /|\n");
+      printf("\t\t  O\n");
+      printf("\t\t\t\t\t\t\t\t /|\n");
       break;
     case 4:
-      printf("  O\n");
-      printf(" /|\\\n");
+      printf("\t\t  O\n");
+      printf("\t\t\t\t\t\t\t\t /|\\\n");
       break;
     case 5:
-      printf("  O\n");
-      printf(" /|\\\n");
-      printf(" /\n");
+      printf("\t\t  O\n");
+      printf("\t\t\t\t\t\t\t\t /|\\\n");
+      printf("\t\t\t\t\t\t\t\t /\n");
       break;
     case 6:
-      printf("  o\n");
-      printf(" /|\\\n");
-      printf(" /\\\n");
+      printf("\t\t  O\n");
+      printf("\t\t\t\t\t\t\t\t /|\\\n");
+      printf("\t\t\t\t\t\t\t\t /\\\n");
       break;
     default:
       return;
@@ -86,13 +94,63 @@ int checkChar(const char* answer, char* current, char guess)
   return found;
 }
 
+// Printing the wrong character array
+void wrongLetterDisplay(char *wrong)
+{
+  int i;
+  int length = strlen(wrong);
+
+  for (i = 0; i < length; i++)
+  {
+    printf("%c", wrong[i]);
+    printf(" ");
+  }
+  printf("\n");
+}
+
+// Inserting the wrong letter into the wrong letter array.
+void wrongLetterFunction(char *wrong, char input)
+{
+  int i;
+
+  for (i = 0; i < HANGED; i++)
+  {
+    if (input == wrong[i])
+      break;
+    else
+    {
+      wrong[strlen(wrong)] = input;
+      break;
+    }
+  }
+}
+
+// Make a boolean function to make sure that the
+// letter guess is not contained in the wrong letter array.
+bool checkWrongLetter(char *wrong, char input)
+{
+  bool check = false;
+  int i = 0;
+
+  for (i = 0; i < HANGED; i++)
+  {
+    if (wrong[i] == input)
+    {
+      check = true;
+    }
+  }
+
+  return check;
+}
+
 int main(void)
 {
   // This is the
   char *stringGuess = "guess";
   char *stringRight;
   char input, letter;
-  char alphabet[26];
+  // "Alphabet" is the wrong array.
+  char *stringWrong;
   // i is the for loop, guessLen is for the length of the actual word
   // alphabetLetters is the length of the incorrect array
   // correctGuess is to equal the guess length of the word.
@@ -105,15 +163,20 @@ int main(void)
   guessLen = strlen(stringGuess);
   // Dynamically Allocate the word to fit the thing itself.
   stringRight = malloc(sizeof(char) * (guessLen + 1));
+  stringWrong = calloc(sizeof(char), HANGED + 1);
 
   while (correctLetters < guessLen)
   {
+    CLS;
+    // display the wrong letter array after each input
+    wrongLetterDisplay(stringWrong);
     // Display the string
     displayString(stringRight, guessLen);
     printf("Please input a character: ");
-    scanf("%c", &input);
+    input = tolower(getchar());
     // This is to remove the extra newline from scanf
-    getchar();
+    // 10 is a newline.
+    while (getchar() != 10);
 
     // Increment letter if it a letter is found;
     alphabetLetters = checkChar(stringGuess, stringRight, input);
@@ -126,8 +189,16 @@ int main(void)
     }
     else
     {
-      printf("Wrong Letter\n");
-      wrongGuess++;
+      printf("Sorry, Wrong Letter. Please try again.\n");
+
+      // Checking to see if the input is already in the wrong character array.
+      // If not, we increment the wrongGuess variable and add the character into the array.
+      if (!checkWrongLetter(stringWrong, input))
+      {
+        wrongGuess++;
+        wrongLetterFunction(stringWrong, input);
+      }
+
       displayBody(wrongGuess);
 
       // If the amount of lives and the amount of wrong guesses equal
@@ -136,12 +207,20 @@ int main(void)
         printf("Lives left: %d\n", lives - wrongGuess);
       else
         break;
+
+
+      getchar();
+      while(getchar() != 10);
     }
   }
+  displayString(stringRight, guessLen);
 
   // Free memory from the guessed string
   printf("GAME OVER\n");
+  
+  // Free both the correct / wrong strings.
   free(stringRight);
+  free(stringWrong);
 
   return 0;
 }
